@@ -1,0 +1,36 @@
+    <!---- Enter email Modal ---->
+
+    <div class="modal" id="getEmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header {{ theme['header-color'] }} {{ theme['border'] }} no-top-border py-0">
+            <h5 class="modal-title" id="staticBackdropLabel">Reset Password</h5>
+            <button type="button" class="btn-close {{ theme['modal-close'] }}" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border pt-3 pb-1">
+
+            <div class="mb-3 ">
+              <form action="{{ url_for('check_email') }}" method="POST">
+                <div class="form-input float-start">
+                  <label for="email" class="mb-2">Please enter your email?</label>
+                  <br>
+                  <!-- validation req -->
+                  <input id="u-email" type="email" name="email" size="30" class="mt-2" required>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border py-1">
+            {% if request.path=='/' %}
+            <button type="button" class="btn btn-secondary px-3" data-bs-target="#login-mod" data-bs-toggle="modal">cancel</button>
+            {% else %}
+            <button type="button" class="btn btn-secondary px-3" data-bs-dismiss="modal">cancel</button>
+            {% endif %}
+            <input type="submit" class="btn btn-secondary px-4" value="ok">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---- Modal end --->

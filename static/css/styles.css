@@ -1,0 +1,761 @@
+          /*
+ * Globals
+ */
+          a, a:hover {
+            text-decoration: none;
+          }
+
+          button {
+            text-shadow: inherit;
+          }
+
+          .btn-outline-secondary:hover {
+            color: #6c757d;
+            border-color: #6c757d;
+            background-color: transparent;
+          }
+
+          .btn-check:focus+.btn-outline-secondary, .btn-outline-secondary:focus {
+            box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
+          }
+
+          .btn-check:checked+.btn-outline-secondary:focus, .btn-check:active+.btn-outline-secondary:focus, .btn-outline-secondary:active:focus, .btn-outline-secondary.active:focus, .btn-outline-secondary.dropdown-toggle.show:focus {
+            box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.5);
+          }
+
+          .custom-tooltip.tooltip>.tooltip-inner {
+            background-color: #df9a1c;
+            /*#1586d7;*/
+          }
+
+          .tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+            border-bottom-color: #df9a1c;
+            /*#1586d7;*/
+          }
+
+          .flash-msg {
+            font-size: 0.9rem;
+            margin: auto;
+            margin-bottom: 2%;
+            width: 95%;
+            padding: 0.5rem 1rem;
+          }
+
+          @media (min-width: 576px) {
+            .flash-msg {
+              width: 70%;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .flash-msg {
+              width: 60%;
+            }
+          }
+
+          @media (min-width: 1400px) {
+            .flash-msg {
+              width: 50%;
+            }
+          }
+
+          /*
+* Base structure
+*/
+          html, body {
+            height: 100vh;
+            width: 100%;
+            overflow: auto;
+          }
+
+          body {
+            text-align: center;
+            justify-content: center;
+            text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+          }
+
+          .body-dark {
+            background-color: black;
+            color: white;
+          }
+
+          .body-light {
+            background-color: rgb(245 245 245);
+            color: black;
+          }
+
+          .bg-lite {
+            background-color: rgb(204 220 231);
+          }
+
+          .border-dark {
+            border-width: 1px;
+            border-style: solid;
+          }
+
+          .border-lite {
+            border: 1px solid rgb(204 220 231);
+          }
+
+          /*
+* Containers
+*/
+          .user-signin, .reset-password {
+            padding-top: 5%;
+            min-height: 80vh;
+          }
+
+          .user-signup, .user-account {
+            padding-top: 2%;
+            min-height: 85vh;
+          }
+
+          .lists {
+            padding-top: 10%;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 72vh;
+          }
+
+          /* For Tablets: */
+          @media (min-width: 768px) {
+            .top-section {
+              padding-left: 4%;
+              padding-right: 4%;
+            }
+
+            .lists {
+              width: 80vw;
+            }
+          }
+
+          /* For Desktops: */
+          @media (min-width: 992px) {
+            .top-section {
+              padding-left: 3%;
+              padding-right: 3%;
+            }
+
+            .lists {
+              padding-top: 5%;
+              width: 95vw;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            .lists {
+              width: 90vw;
+            }
+          }
+
+          /*
+* Forms
+*/
+          .form-input {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5%;
+          }
+
+          .form-box {
+            padding: 3% 3%;
+            border-radius: 0.5rem;
+            width: 95%;
+            margin: auto;
+            margin-bottom: 2%;
+            font-size: 0.9rem;
+          }
+
+          .buttons {
+            width: 100%;
+            margin: auto;
+            padding-top: 0.5rem;
+            margin-bottom: 3rem;
+          }
+
+          .buttons-sign {
+            max-width: 100%;
+          }
+
+          .buttons-account {
+            margin-bottom: 0.5rem !important;
+          }
+
+          .input-style, .input-style-2, .input-style-3 {
+            display: inline-block;
+          }
+
+          .input-style, .input-style-2 {
+            width: 60%;
+            line-height: 0.8;
+            font-size: 0.8rem;
+          }
+
+          .input-style-2 {
+            width: 65%;
+          }
+
+          .input-style-3 {
+            width: 65%;
+            line-height: 1;
+            font-size: 1rem;
+          }
+
+          .form-input-label, .form-input-label-2, .form-input-label-3 {
+            width: 30%;
+            margin-left: 3%;
+            line-height: 1;
+          }
+
+          .form-input-label-2 {
+            width: 28%;
+          }
+
+          /* For Tablets: */
+          @media (min-width: 576px) {
+            .form-box {
+              font-size: 1rem;
+              width: 70%;
+            }
+
+            .input-style {
+              line-height: 1;
+              font-size: 0.9rem;
+            }
+
+            .form-input-label {
+              line-height: 1;
+            }
+
+            .buttons {
+              margin-bottom: 2rem;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .form-box {
+              width: 60%;
+            }
+
+            .input-style {
+              font-size: 1rem;
+            }
+          }
+
+          /* For Desktops: */
+          @media (min-width: 992px) {
+            .buttons-sign {
+              max-width: 90%;
+            }
+
+            .buttons-account {
+              margin-bottom: 0 !important;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            .form-input-label {
+              width: 25%;
+            }
+
+            .input-style-2 {
+              width: 55%;
+            }
+
+            .input-style-3 {
+              width: 60%;
+            }
+
+            .form-input-label-2 {
+              width: 25%;
+            }
+
+            .buttons-reset {
+              max-width: 70%;
+            }
+
+            .buttons-newlist {
+              margin-right: 5%;
+            }
+          }
+
+          @media (min-width: 1400px) {
+            .form-box {
+              width: 50%;
+            }
+
+            .input-style {
+              width: 50%;
+            }
+
+            .buttons {
+              margin-bottom: 1.3rem;
+            }
+
+            .buttons-sign {
+              max-width: 70%;
+            }
+
+            .buttons-reset {
+              max-width: 65%;
+            }
+          }
+
+          /*
+* Dropdown menus
+*/
+          .dropdown-menu-dark {
+            background-color: rgb(100, 125, 130);
+          }
+
+          .dropdown-menu-light {
+            background-color: rgb(219 230 238);
+          }
+
+          .dropdown-button-light,
+          .dropdown-button-light:hover {
+            color: #6c757d;
+            background-color: rgb(219 230 238);
+            border-color: #6c757d;
+            border: 1px solid rgba(0, 0, 0, .15);
+          }
+
+          .dropdown-menu li {
+            position: relative;
+          }
+
+          /*
+* Category Dropdown menu
+*/
+          .submenu {
+            display: none;
+            min-width: 50px;
+            width: 120px;
+            position: absolute;
+            right: 0;
+            left: auto;
+            top: 20px;
+            padding: 0;
+          }
+
+          .dropdown-menu>li:hover>.submenu {
+            display: block;
+          }
+
+          .category {
+            display: flex;
+          }
+
+          /*
+* Color pickers
+*/
+          .color-pick {
+            text-align: -webkit-center;
+            padding: 0.2rem;
+          }
+
+          .multicolor, .multicolor-icon {
+            background: linear-gradient(to left,
+                violet,
+                indigo,
+                blue,
+                green,
+                yellow,
+                orange,
+                red);
+          }
+
+          .multicolor-icon {
+            -webkit-background-clip: text;
+            color: transparent;
+          }
+
+          .btn-round {
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            padding: .375rem;
+            margin: 0.1rem;
+          }
+
+          .print-btn {
+            background-color: transparent;
+            color: #0d6efd;
+            position: absolute;
+            right: 14%;
+          }
+
+          /*
+* Header
+*/
+
+          .nav-menu {
+            justify-content: flex-end;
+          }
+
+          .navbar-nav .nav-txt {
+            font-size: 1.1rem;
+            min-width: 60px;
+          }
+
+          #user:hover {
+            color: #df9a1c;
+          }
+
+          /*
+* Modals: New list, login, delete account, reset password
+*/
+          #delAccount, #getEmail {
+            width: 90%;
+          }
+
+          .mod-body-dark {
+            background-color: rgb(13 13 13);
+          }
+
+          .no-top-border {
+            border-top: none;
+          }
+
+          .close-mod {
+            align-self: end;
+          }
+
+          .mod-head {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+          }
+
+          .new_cat {
+            display: none;
+            color: gray;
+          }
+
+          .new_cat_label {
+            color: inherit;
+          }
+
+          .login-foot {
+            flex-wrap: nowrap;
+          }
+
+          .forgot-link-mod {
+            font-size: 0.7rem;
+            float: right;
+            margin-right: 1rem;
+          }
+
+          @media (min-width: 576px) {
+            #delAccount, #getEmail {
+              width: 70%;
+            }
+
+            .mod-dialog {
+              max-width: 400px;
+            }
+
+            .forgot-link-mod {
+              margin-right: 1.4rem;
+            }
+          }
+
+          @media (min-width: 768px) {
+            #delAccount, #getEmail {
+              width: 50%;
+            }
+          }
+
+          @media (min-width: 992px) {
+            #delAccount, #getEmail {
+              width: 40%;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            #delAccount, #getEmail {
+              width: 35%;
+            }
+          }
+
+          @media (min-width: 1400px) {
+            #delAccount, #getEmail {
+              width: 30%;
+            }
+
+            .forgot-link-mod {
+              margin-right: 4.3rem;
+            }
+          }
+
+          @media (min-width: 1600px) {
+            #delAccount, #getEmail {
+              width: 25%;
+            }
+          }
+
+          @media (min-width: 1900px) {
+            #delAccount, #getEmail {
+              width: 20%;
+            }
+          }
+
+          /*
+* login, register & account
+*/
+          .forgot-link {
+            font-size: 0.7rem;
+            float: right;
+            margin-right: 1rem;
+          }
+
+          .signup-text {
+            font-size: 0.8rem;
+          }
+
+          .del-text {
+            font-size: 0.9rem;
+          }
+
+          .err-msg {
+            font-size: 0.9rem;
+            color: red;
+            text-align: end;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            margin-top: 0.25rem;
+            margin-left: 1.5rem;
+          }
+
+          @media (min-width: 768px) {
+            .signup-text {
+              font-size: 0.9rem;
+            }
+          }
+
+          @media (min-width: 992px) {
+            .forgot-link {
+              margin-right: 1.5rem;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            .forgot-link {
+              margin-right: 4.5rem;
+            }
+          }
+
+          @media (min-width: 1400px) {
+            .forgot-link {
+              margin-right: 7.3rem;
+            }
+          }
+
+          /*
+* Lists
+*/
+          .card {
+            margin: auto;
+          }
+
+          .list-card {
+            width: 18rem;
+          }
+
+          .dropdown-color {
+            display: inline-flex;
+            width: 30px;
+            height: 25px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.5em;
+            opacity: 0.8;
+            position: absolute;
+            right: 20%;
+            z-index: 1;
+          }
+
+          .color-btn, .print-btn {
+            border: none;
+          }
+
+          .header-color-menu {
+            width: 75%;
+            min-width: 8rem;
+          }
+
+          .btn-orange, .card-item-orange {
+            background-color: rgb(238 178 100);
+          }
+
+          .card-orange {
+            background-color: rgb(235 164 73);
+          }
+
+          .btn-purple, .card-item-purple {
+            background-color: rgb(111 90 143);
+          }
+
+          .card-purple {
+            background-color: rgb(86 61 124);
+          }
+
+          .btn-green, .card-item-green {
+            background-color: rgb(101 175 143);
+          }
+
+          .card-green {
+            background-color: rgb(74 161 127);
+          }
+
+          .btn-pink, .card-item-pink {
+            background-color: rgb(245 131 235);
+          }
+
+          .card-pink {
+            background-color: rgb(244 109 232);
+          }
+
+          .btn-yellow, .card-item-yellow {
+            background-color: rgb(248 244 110);
+          }
+
+          .card-yellow {
+            background-color: rgb(247 242 85);
+          }
+
+          .todo-list-item {
+            display: inline-block;
+            width: 84%;
+            text-align: justify;
+          }
+
+          input[type=checkbox]:checked~.todo-list-item {
+            text-decoration: line-through;
+          }
+
+          .task-input-label {
+            display: none;
+          }
+
+          [type="date"] {
+            background: url(../images/calendar1.png) 97% 50% no-repeat;
+            background-size: 18px 20px;
+          }
+
+          [type="date"]::-webkit-inner-spin-button {
+            display: none;
+          }
+
+          [type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            margin-left: 0;
+          }
+
+          .date-picker {
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 5px;
+            padding: 1.5px 5px;
+            box-shadow: -7px 12px 7px rgb(0 0 0 / 10%);
+            text-shadow: inherit;
+            width: 53%;
+            font-size: 0.8rem;
+            float: right;
+            margin-right: 1%;
+            margin-top: 2%;
+          }
+
+          .date-picker:focus {
+            outline: none;
+          }
+
+          .date-picker-orange {
+            background-color: rgb(238 178 100);
+            border-color: rgb(235 164 73);
+          }
+
+          .date-picker-purple {
+            background-color: rgb(111 90 143);
+            border-color: rgb(86 61 124);
+          }
+
+          .date-picker-green {
+            background-color: rgb(101 175 143);
+            border-color: rgb(74 161 127);
+          }
+
+          .date-picker-pink {
+            background-color: rgb(245 131 235);
+            border-color: rgb(244 109 232);
+          }
+
+          .date-picker-yellow {
+            background-color: rgb(248 244 110);
+            border-color: rgb(247 242 85);
+          }
+
+          /* For tablets: */
+          @media (min-width: 768px) {}
+
+          /* For Desktops: */
+          @media (min-width: 992px) {
+            .list-col {
+              width: inherit;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            .list-card {
+              width: 20rem;
+            }
+          }
+
+          @media (min-width: 1800px) {
+            .list-card {
+              width: 22rem;
+            }
+          }
+
+          /*
+ * Footer
+ */
+          .footcred {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .footcred, .btn-footer {
+            color: rgba(147, 144, 152, 1);
+            font-size: 0.7rem;
+          }
+
+          .btn-footer, .btn-footer:focus {
+            width: 200px;
+            padding: 0.1rem 0.7rem;
+            box-shadow: none;
+          }
+
+          .popover-header {
+            background-color: rgb(204 220 231);
+            font-size: 0.8rem;
+            color: black;
+          }
+
+          .popover-body {
+            color: rgba(147, 144, 152, 1);
+            font-size: 0.7rem;
+          }
+
+          [title~=icons] {
+            color: gray;
+            font-size: 0.7rem;
+            margin-bottom: 1px;
+          }
+
+          /* For tablets: */
+          @media (min-width: 540px) {}
+
+          /* For desktops: */
+          @media (min-width: 992px) {}

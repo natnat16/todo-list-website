@@ -1,0 +1,136 @@
+{% include "header.html" %}
+{% set colors = ['orange', 'purple', 'green', 'pink', 'yellow'] %}
+{% set status = {1:'checked', 0:''} %}
+
+<!------------- create new list --------------->
+
+<div class="container-fluid top-section pt-3">
+  {% if current_user.is_authenticated %}
+  {% set mod = '#newList' %}
+  {% else %}
+  {% set mod = '#login-mod' %}
+  {% endif %}
+  <button name="new-list" type="button" class="btn {{ theme['button-style'] }} btn-md float-start" data-bs-toggle="modal" data-bs-target="{{ mod }}">
+    <span>+ new list</span>
+  </button>
+  {% if lists|length == 0 %}
+  {% set btn_stat = 'disabled' %}
+  {% else %}
+  {% set btn_stat = '' %}
+  {% endif %}
+  <button name="print-all" type="button" onclick="printAll();" class="btn {{ theme['button-style'] }} btn-md float-start mx-3" {{ btn_stat }}><i class="fa-solid fa-print"></i></button>
+
+  <!---- Modals for creating a new list and for login ---->
+  {% include "index-modals.html" %}
+
+
+
+  <!------------- category display menu --------------->
+
+  <div class="dropdown">
+    <button name="category" class="btn shadow-none {{ theme['drop-button'] }} dropdown-toggle float-end px-3" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      Category </button>
+
+    <ul class="dropdown-menu {{ theme['drop-menu'] }}" aria-labelledby="dropdownMenuButton1">
+      <li class=""><a class="dropdown-item" href="{{ url_for('home') }}"> All </a> </li>
+      {% for category in categories %}
+      <li class="">
+
+        <a class="dropdown-item" href="{{ url_for('home', category=category) }}"> {{ category }}
+          <i class="fa-solid fa-paintbrush float-end multicolor-icon"></i> </a>
+
+        <!-- color change by category -->
+        <ul class="submenu dropdown-menu {{ theme['drop-menu'] }}">
+          <li class="dropdown-item color-pick">
+
+            {% for color in colors %}
+            <input type="radio" class="btn-check" name="options" id="opt-{{ category }}-{{ color }}" autocomplete="off" onchange="update_db_color_by_cat('opt-{{ category }}-{{ color }}');">
+            <label class="btn btn-round btn-{{ color }}" for="opt-{{ category }}-{{ color }}"></label>
+            {% endfor %}
+
+          </li>
+        </ul>
+
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+</div>
+
+<!------------- lists --------------->
+
+<div class="container-fluid lists">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <p class="alert alert-danger flash-msg" role="alert">{{ messages[0] }}</p>
+  {% endif %}
+  {% endwith %}
+
+  <div class="row">
+
+    {% for list in lists %}
+    <div class="list-col col-sm-12 col-md-6 col-lg-4 col-xxl-3">
+      <div class="card list-card text-start mb-4 card-{{ list.color }}" id="card-{{ list.id }}">
+
+        <div class="card-header" id={{ list.id }} style="color: white;">
+          {{ list.category }}
+
+          <!-- color change by list -->
+          <div class="dropdown dropdown-color">
+            <button name="color-button" class="fa-solid fa-paintbrush color-btn multicolor-icon dropdown-toggle px-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false"></button>
+            <ul class="dropdown-menu {{ theme['drop-menu'] }} header-color-menu pt-0 pb-1 px-0" aria-labelledby="dropdownMenuButton3">
+              <li class="dropdown-item color-pick header-color-menu p-0">
+                {% for color in colors %}
+                <input name="options" type="radio" class="btn-check" id="opt-{{ color }}-{{ list.id }}" autocomplete="off" onchange="update_db_color_by_list('opt-{{ color }}-{{ list.id }}');">
+                <label class="btn btn-round btn-{{ color }}" for="opt-{{ color }}-{{ list.id }}"></label>
+                {% endfor %}
+              </li>
+            </ul>
+          </div>
+
+          <button name="print-list" type="button" onclick="printList('card-{{ list.id }}');" class="print-btn">
+            <i class="fa-solid fa-print"></i></button>
+          <a name="del-list" class="float-end" href="{{ url_for('delete_list', list_id=list.id) }}"><i class="fa-solid fa-trash-can"></i> </a>
+        </div>
+
+        <div class="list-group">
+          {% for item in list.list_items %}
+
+          <div class="list-group-item card-item-{{ list.color }}">
+            <input name="chkbox" class="form-check-input me-1" type="checkbox" id="chk-{{ item.id }}" onchange="update_db_task('chk-{{ item.id }}');" {{ status[item.is_done] }}>
+            <a name="del-item" class="float-end" href="{{ url_for('delete_item', list_id=list.id, item_id=item.id) }}"> <i class="fa-solid fa-xmark"></i> </a>
+            <div class="todo-list-item">
+              <span class="task-text" id="text-{{ item.id }}" contenteditable="true" oninput="update_db_task_text('{{ item.id }}');">{{ item.task }}</span>
+              {% if item.due_date == None %}
+              {% set due_date = '' %}
+              {% else %}
+              {% set due_date = item.due_date %}
+              {% endif %}
+              <input type="date" name="task-date" id="date-{{ item.id }}" value="{{ due_date }}" class="date-picker date-picker-{{ list.color }}" style="border-color: 'card-{{ list.color }}';" onchange="update_db_date('date-{{ item.id }}');">
+            </div>
+          </div>
+
+          {% endfor %}
+
+          <form name="new-item-input" action="{{ url_for('create_item') }}" method="POST">
+            {{ itemform.csrf_token(id="csrf_token-{}!".format(list.id)) }}
+            {{ itemform.list_id(id="hidden-{}!".format(list.id), value=list.id) }}
+            <div class="card-item-{{ list.color }} px-3 py-2">
+              {{ itemform.text.label(class_="list-group-item task-input-label") }}
+              {{ itemform.text(id="text-{}!".format(list.id), class_="form-control form-control-sm")}}
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+
+{% include "footer.html" %}

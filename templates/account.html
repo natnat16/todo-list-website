@@ -1,0 +1,71 @@
+{% include "header.html" %}
+
+<div class="container user-account">
+  <h1 class="pb-3"> User Account </h1>
+  <div class="form-box {{ theme['border'] }}">
+    <form action="{{ url_for('account_settings') }}" method="POST" novalidate>
+      {{ form.csrf_token }}
+      <p class="error">{{ error }}</p>
+      {# endif #}
+      <div class="form-input">
+        {{ form.name.label(class_="col-form-label form-input-label") }} {{ form.name(class_="input-style  form-control") }}
+        {% for error in form.name.errors %}
+        <p class="alert err-msg" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input">
+        {{ form.email.label(class_="col-form-label form-input-label") }} {{ form.email(class_="input-style  form-control") }}
+      </div>
+      <div class="form-input">
+        {{ form.theme.label(class_="col-form-label form-input-label") }} {{ form.theme(class_="input-style  form-control") }}
+      </div>
+      <hr>
+      <h6 class="text-start ms-2">Change Password:</h6>
+      <div class="form-input">
+        {{ form.password.label(class_="col-form-label form-input-label") }} {{ form.password(class_="input-style  form-control")}}
+        {% if form.password.errors %}
+        <p class="alert err-msg" role="alert">{{ form.password.errors[0] }}</p>
+        {% endif %}
+      </div>
+      <div class="form-input">
+        {{ form.confirm.label(class_="col-form-label form-input-label") }} {{ form.confirm(class_="input-style  form-control")}}
+        {% if form.confirm.errors %}
+        <p class="alert err-msg" role="alert">{{ form.confirm.errors[0] }}</p>
+        {% endif %}
+      </div>
+      <hr>
+      <div class="form-input buttons buttons-account">
+        {{form.submit(class_="btn btn-dark mx-2 float-end")}}
+        <button type="button" class="btn btn-secondary mx-2 float-end" onclick="window.location.href='{{ url_for('home') }}';">cancel</button>
+        <a class="del-text" href="#delAccount" role="button" data-bs-toggle="modal">delete account? </a>
+      </div>
+    </form>
+
+  </div> 
+</div>
+
+<!---- Delete account Modal ---->
+
+<div class="modal" id="delAccount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content {{ theme['modal-color'] }}">
+      <button type="button" class="btn-close {{ theme['modal-close'] }} float-end close-mod" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body {{ theme['modal-color'] }} text-start">
+        <div class="mb-3 ">
+          <p> Are you sure you want to delete your account? </p>
+        </div>
+      </div>
+      <div class="modal-footer {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border py-1">
+        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-secondary px-4" onclick="window.location.href='{{ url_for('delete_account') }}';">Yes</button>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---- Modal end --->
+
+
+{% include "footer.html" %}

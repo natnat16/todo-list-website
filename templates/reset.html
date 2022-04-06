@@ -1,0 +1,81 @@
+{% include "header.html" %}
+
+<div class="container reset-password">
+  <h1 class="pb-3"> Reset Password </h1>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <p class="alert alert-danger flash-msg" role="alert">{{ messages[0] }}</p>
+  {% endif %}
+  {% endwith %}
+
+  <div class="form-box {{ theme['border'] }}" id="verification">
+    <form action="{{ url_for('check_verification_answer') }}" method="POST" novalidate>
+      {{ verifyform.csrf_token(id="Verify")}}
+
+      <div class="form-input">
+        {{ verifyform.email.label(class_="col-form-label form-input-label-2") }} {{ verifyform.email(id="email1", class_="input-style-2 form-control") }}
+      </div>
+      <div class="form-input">
+        {{ verifyform.question.label(class_="col-form-label form-input-label-2") }} {{ verifyform.question(class_="input-style-2 form-control")}}
+      </div>
+      <div class="form-input">
+        {{ verifyform.answer.label(class_="col-form-label form-input-label-2") }} {{ verifyform.answer(class_="input-style-2 form-control")}}
+        {% for error in verifyform.answer.errors %}
+        <p class="alert err-msg" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input buttons buttons-reset">
+        {{verifyform.submit(id="verifyButton", class_="btn btn-dark ms-2 float-end")}}
+        <button type="button" class="btn btn-secondary me-2  float-end" onclick="window.location.href='{{ url_for('login') }}';">cancel</button>
+
+      </div>
+    </form>
+  </div>
+
+  <div class="form-box" id="reset">
+
+    <form action="{{ url_for('reset') }}" method="POST" novalidate>
+      {{ resetform.csrf_token(id="Reset")}}
+      {{ resetform.is_verified() }}
+      <div class="form-input">
+        {{ resetform.email.label(class_="col-form-label form-input-label-2") }} {{ resetform.email(id="email2", class_="input-style-2 form-control") }}
+      </div>
+      <div class="form-input">
+        {{ resetform.password.label(class_="col-form-label form-input-label-2") }} {{ resetform.password(class_="input-style-2 form-control")}}
+        {% if resetform.password.errors %}
+        <p class="alert err-msg" role="alert">{{ resetform.password.errors[0] }}</p>
+        {% endif %}
+      </div>
+      <div class="form-input">
+        {{ resetform.confirm.label(class_="col-form-label form-input-label-2") }} {{ resetform.confirm(class_="input-style-2 form-control")}}
+        {% if resetform.confirm.errors %}
+        <p class="alert err-msg" role="alert">{{ resetform.confirm.errors[0] }}</p>
+        {% endif %}
+      </div>
+      <div class="form-input buttons buttons-reset">
+        {{resetform.submit(id="resetButton", class_="btn btn-dark ms-2 float-end")}}
+        <button type="button" class="btn btn-secondary me-2 float-end" onclick="window.location.href='{{ url_for('login') }}';">cancel</button>
+
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  var verification = document.getElementById("is_verified").value;
+  var verify_form = document.getElementById("verification");
+  var reset_form = document.getElementById("reset");
+
+  //console.log(verification);
+  if (verification == "True") {
+    verify_form.style.display = "none";
+    reset_form.style.display = "block";
+  } else {
+    verify_form.style.display = "block";
+    reset_form.style.display = "none";
+  };
+</script>
+
+{% include "footer.html" %}

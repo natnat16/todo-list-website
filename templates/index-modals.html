@@ -1,0 +1,80 @@
+    <!---- new-list Modal ---->
+
+    <div class="modal" id="newList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog mod-dialog">
+        <div class="modal-content">
+          <div class="modal-header mod-head {{ theme['header-color'] }} {{ theme['border'] }} no-top-border">
+            <h5 class="modal-title " id="staticBackdropLabel">Create new list</h5>
+            <button type="button" class="btn-close {{ theme['modal-close'] }}" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border">
+            <div class="mb-3 ">
+              <form action="{{ url_for('create_list') }}" method="POST" novalidate>
+                {{ listform.csrf_token(id="ListToken") }}
+                <div class="form-input" onchange="set_field_display();">
+                  {{ listform.category.label(class_="col-form-label form-input-label-3") }} {{ listform.category(class_="input-style-3 form-control") }}
+                </div>
+                <div class="form-input">
+                  {{ listform.new_category.label(class_="col-form-label form-input-label-3 new_cat new_cat_label") }} {{ listform.new_category(class_="input-style-3 form-control new_cat")}}
+                </div>
+                <div class="form-input">
+                  {{ listform.color.label(class_="col-form-label form-input-label-3") }} {{ listform.color(class_="btn input-style-3  multicolor form-control")}}
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border">
+            <div class="buttons-newlist">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              {{listform.submit(id="subNewList", class_="btn btn-dark")}}
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---- Modal end --->
+
+    <!---- login Modal ---->
+
+    <div class="modal" id="login-mod" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header mod-head {{ theme['header-color'] }} {{ theme['border'] }} no-top-border">
+            <h5 class="modal-title " id="staticBackdropLabel">Login</h5>
+            <button type="button" class="btn-close {{ theme['modal-close'] }}" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border">
+            <div class="mb-3 ">
+              <form action="{{ url_for('login') }}" method="POST" novalidate>
+                {{ loginform.csrf_token(id="LoginToken") }}
+                <div class="form-input">
+                  {{ loginform.email.label(class_="col-form-label form-input-label") }} {{ loginform.email(class_="input-style form-control") }}
+                  {% for error in loginform.email.errors %}
+                  <p class="alert alert-danger err-msg ms-4 mt-2 py-1 text-center" role="alert">{{ error }}</p>
+                  {% endfor %}
+                </div>
+                <div class="form-input">
+                  {{ loginform.password.label(class_="col-form-label form-input-label") }} {{ loginform.password(class_="input-style form-control")}}
+                  <!-- link for password reset -->
+                  <a class="forgot-link-mod mt-1" href="#getEmail" role="button" data-bs-toggle="modal">Forget password?</a>
+                  {% for error in loginform.password.errors %}
+                  <p class="alert err-msg" role="alert">{{ error }}</p>
+                  {% endfor %}
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer login-foot {{ theme['modal-color'] }} {{ theme['border'] }} no-top-border">
+            <p class="signup-text"> not registered yet? <a href="{{ url_for('signup') }}">SignUp</a> now!</p>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            {{loginform.submit(id="subLogin",class_="btn btn-dark")}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---- Modal end --->
+
+    <!---- Modal for getting email for password reset ---->
+    {% include "reset-modal.html" %}

@@ -1,0 +1,52 @@
+{% include "header.html" %}
+
+<div class="container user-signup">
+  <h1 class="pb-3"> Register </h1>
+  <div class="form-box {{ theme['border'] }}">
+    <form action="{{ url_for('signup') }}" method="POST" novalidate>
+      {{ signupform.csrf_token }}
+      <div class="form-input">
+        {{ signupform.name.label(class_="col-form-label form-input-label") }} {{ signupform.name(class_="input-style   form-control") }}
+        {% for error in signupform.name.errors %}
+        <p class="alert err-msg" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input">
+        {{ signupform.email.label(class_="col-form-label form-input-label") }} {{ signupform.email(class_="input-style   form-control") }}
+        {% for error in signupform.email.errors %}
+        <p class="alert err-msg" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input">
+        {{ signupform.password.label(class_="col-form-label form-input-label") }} {{ signupform.password(class_="input-style form-control")}}
+        {% if signupform.password.errors %}
+        <p class="alert err-msg" role="alert">{{ signupform.password.errors[0] }}</p>
+        {% endif %}
+      </div>
+      <div class="form-input">
+        {{ signupform.confirm.label(class_="col-form-label form-input-label") }} {{ signupform.confirm(class_="input-style   form-control")}}
+        {% if signupform.confirm.errors %}
+        <p class="alert err-msg" role="alert">{{ signupform.password.errors[0] }}</p>
+        {% endif %}
+      </div>
+      <hr>
+      <h6 class="text-start ms-2">Choose verifaction:</h6>
+      <div class="form-input pt-2">
+        {{ signupform.question.label(class_="col-form-label form-input-label") }} {{ signupform.question(class_="input-style  form-control")}}
+      </div>
+      <div class="form-input">
+        {{ signupform.answer.label(class_="col-form-label form-input-label") }} {{ signupform.answer(class_="input-style  form-control")}}
+        {% for error in signupform.answer.errors %}
+        <p class="alert err-msg" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input buttons buttons-sign">
+        {{signupform.submit(class_="btn btn-dark float-end")}}
+        <p class="signup-text mt-2 float-start"> Already registered? <a href="{{ url_for('login') }}">Login</a> now!</p>
+      </div>
+    </form>
+
+  </div> 
+</div>
+
+{% include "footer.html" %}

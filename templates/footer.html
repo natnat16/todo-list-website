@@ -1,0 +1,28 @@
+<footer class="footcred pt-2 mb-1">
+  <p class="mb-0">Created & designed by Anat Haimovich {{year}}</p>
+  <a id="attributions" tabindex="0" class="btn btn-footer" role="button" data-bs-toggle="popover" data-bs-html="true" title="Credits" data-bs-content='<a href="https://www.flaticon.com/free-icons/list" title="list icons" target="_blank">List icon</a> by Icongeek26 &
+       <a href="https://www.flaticon.com/free-icons/to-do" title="to do icons" target="_blank">Todo icon</a>  by Freepik - Flaticon,
+       Calendar icon by<a href="https://www.iconfinder.com/korawan_m" title="Free calendar icons" target="_blank"> BomSymbols. - iconfinder</a>'>
+    Click for attributions</a>
+</footer>
+
+<!-- Bootstrap 5 core JavaScript -->
+<!-- first Popper.js, then Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<script src="../static/js/jsfunc.js"></script>
+
+<script type="text/javascript">
+  var creditEl = document.getElementById('attributions')
+  var popover = new bootstrap.Popover(creditEl)
+</script>
+
+{% if current_user.is_authenticated %}
+<script type="text/javascript">
+  var accountEl = document.getElementById('user')
+  var tooltip = new bootstrap.Tooltip(accountEl)
+</script>
+{% endif %}
+</body>
+
+</html>

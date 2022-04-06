@@ -1,0 +1,40 @@
+{% include "header.html" %}
+
+<div class="container user-signin">
+  <h1 class="pb-3"> Login </h1>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <p class="alert alert-danger flash-msg" role="alert">{{ messages[0] }}</p>
+  {% endif %}
+  {% endwith %}
+  <div class="form-box {{ theme['border'] }}">
+    <form action="{{ url_for('login') }}" method="POST" novalidate>
+      {{ loginform.csrf_token }}
+
+      <div class="form-input">
+        {{ loginform.email.label(class_="col-form-label form-input-label") }} {{ loginform.email(class_="input-style form-control") }}
+        {% for error in loginform.email.errors %}
+        <p class="alert err-msg" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input mb-4">
+        {{ loginform.password.label(class_="col-form-label form-input-label") }} {{ loginform.password(class_="input-style form-control")}}
+        <!-- link for password reset -->
+        <a class="forgot-link mt-1" href="#getEmail" role="button" data-bs-toggle="modal">Forget password?</a>
+        {% for error in loginform.password.errors %}
+        <p class="alert err-msg mt-3" role="alert">{{ error }}</p>
+        {% endfor %}
+      </div>
+      <div class="form-input buttons buttons-sign">
+        {{loginform.submit(class_="btn btn-dark float-end ")}}
+        <p class="signup-text mt-2 float-start"> not registered yet? <a href="{{ url_for('signup') }}">SignUp</a> now!</p>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<!---- Modal for getting email for password reset ---->
+{% include "reset-modal.html" %}
+
+{% include "footer.html" %}
