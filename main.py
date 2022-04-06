@@ -8,6 +8,7 @@ from datetime import datetime, date, timedelta
 from forms import SignUpForm, LoginForm, SettingsForm, ResetForm, ResetVerificationForm, CreateNewList, CreateNewItem, verification_questions
 from numpy import unique
 import os
+import re
 # for local use of .env
 # from dotenv import load_dotenv 
 # load_dotenv()
@@ -22,7 +23,11 @@ host2='g-todo-list.herokuapp.com'
 
 ######    Connect to Database    ######
 ## (DATABASE_URL online, sqlite will be used localy)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///todo.db')
+URI = os.environ.get('DATABASE_URL', 'sqlite:///todo.db')
+if URI.startswith("postgres://"):
+    URI = URI.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
