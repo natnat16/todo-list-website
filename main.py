@@ -16,7 +16,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('APP_SECRET_KEY')
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(weeks=1)
 ## change host when deploying
-host='http://127.0.0.1:5000/'
+#host='http://127.0.0.1:5000/'
+host='https://g-todo-list.herokuapp.com/'
 
 ######    Connect to Database    ######
 ## (DATABASE_URL online, sqlite will be used localy)
