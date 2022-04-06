@@ -63,7 +63,7 @@ class Item(db.Model):
     is_done = db.Column(db.Boolean)
     parent_list = relationship('List', back_populates="list_items")
       
-# db.create_all()   
+db.create_all()   
     
 ###   Themes   ###
 
