@@ -38,8 +38,8 @@
     <div class="container-fluid">
       <div class="">
         <a class="navbar-brand" href="{{ url_for('home') }}">
-          <img src="../static/images/to-do-list.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-          todo
+          <img src="{{ url_for('static', filename='images/to-do-list.png')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+          todo  
         </a>
         <button name="theme" type="button" onclick="window.location.href='{{ url_for('change_theme', theme=theme['name'], url=request.path) }}';" class="btn {{ theme['button-style'] }} btn-md"><span>{{ theme['button-label'] }}</span></button>
       </div>
