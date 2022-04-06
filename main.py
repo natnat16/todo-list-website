@@ -18,6 +18,7 @@ app.config['REMEMBER_COOKIE_DURATION'] = timedelta(weeks=1)
 ## change host when deploying
 #host='http://127.0.0.1:5000/'
 host='https://g-todo-list.herokuapp.com/'
+host2='g-todo-list.herokuapp.com/'
 
 ######    Connect to Database    ######
 ## (DATABASE_URL online, sqlite will be used localy)
@@ -136,7 +137,7 @@ def home():
 def change_theme():  
     url = request.args.get('url')
     set_theme()
-    if not is_safe_url(url, host):
+    if not is_safe_url(url, {host, host2}):
       return abort(400)
     return redirect(url) 
 
@@ -343,7 +344,7 @@ def create_item():
         
         url = url_for('home', _anchor=list_id)
     
-        if not is_safe_url(url, host):
+        if not is_safe_url(url, {host, host2}):
           return abort(400)
 
         return redirect(url) 
@@ -367,7 +368,7 @@ def delete_item():
     
     url = url_for('home', _anchor=list_id)
     
-    if not is_safe_url(url, host):
+    if not is_safe_url(url, {host, host2}):
       return abort(400)
     
     return redirect(url) 
@@ -437,7 +438,7 @@ def update_category_color():
     else:
       url = url_for('home')
           
-    if not is_safe_url(url, host):
+    if not is_safe_url(url, {host, host2}):
       return abort(400)
 
     flash(f'updated: {lists_to_update}', 200)
