@@ -36,6 +36,7 @@
           .flash-msg {
             font-size: 0.9rem;
             margin: auto;
+			margin-top: 2%;
             margin-bottom: 2%;
             width: 95%;
             padding: 0.5rem 1rem;
