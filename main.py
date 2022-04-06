@@ -42,7 +42,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(50))
     theme = db.Column(db.String(50), default='light')
     verifaction_question = db.Column(db.String(250))
-    verifaction_answer = db.Column(db.String(50)) 
+    verifaction_answer = db.Column(db.String(250)) 
     user_lists = relationship('List', back_populates="parent_user", cascade="all, delete")     
 
 class List(db.Model):
