@@ -27,7 +27,7 @@
 
   <!------------- category display menu --------------->
 
-  <div class="dropdown">
+  <div id="dropdown-category" class="dropdown">
     <button name="category" class="btn shadow-none {{ theme['drop-button'] }} dropdown-toggle float-end px-3" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
       Category </button>
 
@@ -56,6 +56,15 @@
     </ul>
 
   </div>
+  
+  <script type="text/javascript">
+  var dropdown = document.getElementById("dropdown-category");
+  {% if not current_user.is_authenticated %}
+    dropdown.style.display = "none";
+  {% else %}
+    dropdown.style.display = "block";
+  {% endif %}
+  </script>
 
 </div>
 
