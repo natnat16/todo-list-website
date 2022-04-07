@@ -8,7 +8,6 @@ from datetime import datetime, date, timedelta
 from forms import SignUpForm, LoginForm, SettingsForm, ResetForm, ResetVerificationForm, CreateNewList, CreateNewItem, verification_questions
 from numpy import unique
 import os
-import re
 # for local use of .env
 # from dotenv import load_dotenv 
 # load_dotenv()
@@ -54,6 +53,7 @@ class List(db.Model):
     color = db.Column(db.String(50), default='orange')
     list_items = relationship('Item', back_populates="parent_list", cascade="all, delete")
     
+    
 class Item(db.Model):
     __tablename__ = "items"
     id = db.Column(db.Integer, primary_key=True)
@@ -63,9 +63,9 @@ class Item(db.Model):
     is_done = db.Column(db.Boolean)
     parent_list = relationship('List', back_populates="list_items")
       
-db.create_all()   
-    
-###   Themes   ###
+# db.create_all()  
+   
+###   Color Themes   ###
 
 themes = { 'dark': { 'name': 'dark',    
                       'body-th': 'body-dark',
@@ -93,11 +93,21 @@ themes = { 'dark': { 'name': 'dark',
                     }
         }
 
+# default color theme for website
 current_theme = themes['light']
 
 ###   functions   ###
 def set_theme():
+    '''
+    Sets the website color theme.
+    If selected at the site, changes the current theme, 
+    & if user is logged in it updates their account.
+    otherwise, if user is logged in the theme is 
+    set by their account specification.
+  
+    '''
     global current_theme
+    
     # case when theme change button is clicked
     theme_to_change = request.args.get('theme')
     if theme_to_change == 'dark':
@@ -114,6 +124,18 @@ def set_theme():
       
                
 def get_lists():
+    '''
+    If logged in retrieves the current user todo-list objects.
+    when selected, filtered by category.
+    
+    Returns
+    -------
+    LIST
+      a list of the todo-list objects.
+    LIST
+      a list of the lists' categories.
+  
+    '''
     # get all user lists if logged in
     if current_user.is_authenticated:
       lists = current_user.user_lists
@@ -121,7 +143,7 @@ def get_lists():
       # if user filterd by category get filtered lists
       category = request.args.get('category')
       if category:
-        lists = List.query.filter_by(category=category).all()  
+        lists = db.session.query(List).filter(List.user_id==current_user.id, List.category==category).all()  
       return lists, list(categories)
     return [], ['General']
 
@@ -129,6 +151,10 @@ def get_lists():
 
 @app.route('/')
 def home():
+    '''
+    Home view: sends all required data to home page.
+
+    '''
     year = datetime.now().year
     set_theme()
     lists, categories = get_lists()
@@ -139,7 +165,12 @@ def home():
     return render_template("index.html", year=year, listform=list_form, itemform=item_form, loginform=login_form, theme=current_theme, lists=lists, categories=categories)
  
 @app.route('/theme')
-def change_theme():  
+def change_theme():
+    '''
+    Triggered when the button to change the color theme is clicked
+    calls 'set_theme()' and redirects to the same page.
+
+    '''  
     url = request.args.get('url')
     set_theme()
     if not is_safe_url(url, {host, host2}):
@@ -155,6 +186,11 @@ def load_user(user_id):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+  '''
+  signip view: manages the site registration.
+  handles the signup form and creates and logs in the new user.
+
+  '''
   year = datetime.now().year
   form = SignUpForm()
 
@@ -182,6 +218,11 @@ def signup():
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+  '''
+  login view: manages the login process.
+  handles the login form and logs in the user.
+
+  '''
   year = datetime.now().year
   form = LoginForm()
   if form.validate_on_submit():
@@ -203,6 +244,11 @@ def login():
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def account_settings():
+  '''
+  settings view: manages user settings.
+  handles changes in user account.
+
+  '''
   year = datetime.now().year
   form = SettingsForm( 
                     name=current_user.name,
@@ -234,6 +280,12 @@ def account_settings():
 
 @app.route('/verification', methods=['GET','POST'])
 def check_email():
+  '''
+  Starts the reset password process:
+  Triggered with the 'forgot password' link.
+  Checks if email exists in the database.
+
+  '''
   if request.method=='GET':
     return redirect(url_for('login'))
   year = datetime.now().year
@@ -254,6 +306,12 @@ def check_email():
 
 @app.route('/reset', methods=['GET', 'POST'])
 def check_verification_answer():
+  '''
+  Continues the reset password process:
+  Triggered when check_email() validates the email address. 
+  Checks if the user has answered the verification question correctly.
+
+  '''
   if request.method=='GET':
     return redirect(url_for('login'))
   year = datetime.now().year
@@ -276,6 +334,12 @@ def check_verification_answer():
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset():
+  '''
+  Comletes the reset password process:
+  Triggered when check_verification_answer() validates the user answer.
+  handles the password reset.
+
+  '''
   if request.method=='GET':
     return redirect(url_for('login'))  
   year = datetime.now().year
@@ -301,6 +365,10 @@ def logout():
 @app.route('/delete_account')
 @login_required
 def delete_account():
+  '''
+  Deletes user from database upon their request, and all their children objects.
+
+  '''
   user_to_delete = current_user
   db.session.delete(user_to_delete) 
   db.session.commit()
@@ -310,6 +378,10 @@ def delete_account():
 
 @app.route('/new_list', methods=['POST'])
 def create_list(): 
+    '''
+    Creates a new List objest for the current user.
+  
+    '''
     form = CreateNewList()
     # next line is to avoid 'TypeError: Choices cannot be None.' since the choices are actually set in the home view
     form.category.choices = []
@@ -333,6 +405,10 @@ def create_list():
 
 @app.route('/new_task', methods=['POST'])
 def create_item(): 
+    '''
+    Creates a new Item objest for a specific List object for the current user.
+  
+    '''
     form = CreateNewItem()
     if  form.validate_on_submit():
         
@@ -347,8 +423,7 @@ def create_item():
         db.session.add(new_item)
         db.session.commit() 
         
-        url = url_for('home', _anchor=list_id)
-    
+        url = url_for('home', _anchor=list_id)   
         if not is_safe_url(url, {host, host2}):
           return abort(400)
 
@@ -356,6 +431,10 @@ def create_item():
     
 @app.route('/delete_list')
 def delete_list(): 
+    '''
+    Deletes a List object and all its Item object children.
+    
+    '''
     list_id = request.args.get('list_id')
     list_to_delete = List.query.get(list_id)
     db.session.delete(list_to_delete)
@@ -364,15 +443,17 @@ def delete_list():
   
 @app.route('/delete_task')
 def delete_item(): 
+    '''
+    Deletes an Item object.
+    
+    '''
     item_id = request.args.get('item_id')
     item_to_delete = Item.query.get(item_id)
     db.session.delete(item_to_delete)
     db.session.commit()
     
-    list_id = request.args.get('list_id')
-    
-    url = url_for('home', _anchor=list_id)
-    
+    list_id = request.args.get('list_id')   
+    url = url_for('home', _anchor=list_id)    
     if not is_safe_url(url, {host, host2}):
       return abort(400)
     
@@ -382,20 +463,27 @@ def delete_item():
   
 @app.route('/update_task_status', methods=['POST'])
 def update_checkbox_status():
-    
+    '''
+    Gets the list item checkbox status from fetch API
+    and updates the database.
+
+    '''
     status = request.get_json()  
     res = make_response(jsonify({'message': 'ok'}), 200)
     
     item_id = status['item_id']
     requested_item = Item.query.get(item_id)
     requested_item.is_done = status['is_checked']
-    db.session.commit() 
-       
+    db.session.commit()        
     return res
 
 @app.route('/update_task_text', methods=['POST'])
 def update_task_text():
-    
+    '''
+    Gets the list item new text upon editing from fetch API
+    and updates the database.
+
+    '''
     status = request.get_json()  
     res = make_response(jsonify({'message': 'ok'}), 200)
     
@@ -403,13 +491,16 @@ def update_task_text():
     requested_item = Item.query.get(item_id)
     requested_item.task = status['text']
     requested_item.is_done = status['unchecked']
-    db.session.commit() 
-    
+    db.session.commit()     
     return res
   
 @app.route('/update_task_date', methods=['POST'])
 def update_task_date():
-    
+    '''
+    Gets the list item date input upon change from fetch API
+    and updates the database.
+
+    '''   
     status = request.get_json()  
     res = make_response(jsonify({'message': 'ok'}), 200)
     
@@ -424,13 +515,16 @@ def update_task_date():
       day = int(status['date'].split('-')[2])
       requested_item.due_date = date(year, month, day)
     
-    db.session.commit() 
-    
+    db.session.commit()   
     return res
   
 @app.route('/update_category_color', methods=['POST'])
 def update_category_color():
-    
+    '''
+    Gets the list category color input upon change from fetch API,
+    updates the database and redirects back.  
+
+    '''
     status = request.get_json()  
   
     category = status['category']
@@ -442,7 +536,7 @@ def update_category_color():
       url = url_for('home', category=category)
     else:
       url = url_for('home')
-          
+        
     if not is_safe_url(url, {host, host2}):
       return abort(400)
 
@@ -452,7 +546,11 @@ def update_category_color():
   
 @app.route('/update_list_color', methods=['POST'])
 def update_list_color():
-    
+    '''
+    Gets the list color input upon change from fetch API,
+    updates the database and redirects back.  
+
+    '''
     status = request.get_json()  
   
     list_id = status['list_id']

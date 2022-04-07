@@ -10,6 +10,9 @@ verification_questions = [(1, "Your mothers' maiden name"), (2, "Your first pets
 ######    Forms    ######
 
 def validate_password(form, field):
+  '''
+  Validation for password complexity.
+  '''
   lowcase = re.search("[a-z]", field.data)
   upcase = re.search("[A-Z]", field.data)
   number = re.search("\d", field.data)

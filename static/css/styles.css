@@ -659,7 +659,7 @@
             padding: 1.5px 5px;
             box-shadow: -7px 12px 7px rgb(0 0 0 / 10%);
             text-shadow: inherit;
-            width: 53%;
+            width: 49%; /*53%;*/
             font-size: 0.8rem;
             float: right;
             margin-right: 1%;
