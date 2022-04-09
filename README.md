@@ -1,5 +1,6 @@
 # todo-list-website
-Flask based app for creating lists
+Flask based app for creating lists.  
+Deployed on Heroku: https://g-todo-list.herokuspp.com
 
 The site has a dark and a light color theme. 
 
