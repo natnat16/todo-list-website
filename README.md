@@ -8,8 +8,9 @@ The site has a dark and a light color theme.
 ![todo6_](https://user-images.githubusercontent.com/94202654/162575414-f6ec8beb-ff8c-4eac-b3bf-ffe68a61e2be.png)
 
 You have to signup to be able to create lists, there is a remember me feature, and a password reset option.  
-The user can edit their account settings and deletes their account.
-you can print all lists or just a single list.
+The user can edit their account settings and delete their account. 
+
+you can print all lists or just a single list.  
 
 Lists:
   * Have a category and color.
